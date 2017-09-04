@@ -1,0 +1,13 @@
+<div class="list-container">
+  <div class="list-title">
+    Books coming from openlibrary.org and books.google.com
+  </div>
+  <div class="list-timestamp">
+    {{$ctrl.currentDate | date:'yyyy-MM-dd HH:mm:ss'}}
+  </div>
+  <div class="list">
+    <div ng-repeat="b in $ctrl.booksList" class="book">
+      {{ b }}
+    </div>
+  </div>
+</div>

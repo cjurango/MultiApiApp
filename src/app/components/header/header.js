@@ -57,16 +57,17 @@ class HeaderController {
         olBooks = responseOl.data.docs.map(b => {
           return b.title_suggest.toUpperCase();
         });
+        olBooks = this.uniqueTitles(olBooks);
         this.getGoogleBooks(this.query)
         .then(responseGb => {
           gBooks = responseGb.data.items.map(b => {
             return b.volumeInfo.title.toUpperCase();
           });
-          olBooks.push(gBooks);
-          olBooks = this.uniqueTitles(olBooks);
+          gBooks = this.uniqueTitles(gBooks);
+          olBooks.concat(gBooks);
           this.quickSortTitles(olBooks, 0, olBooks.length - 1);
-          this.allBooks = olBooks;
-          this.$log.log(olBooks);
+          this.$rootScope.searching = true;
+          this.$rootScope.$broadcast('bookListChanged', olBooks);
         }, errorGr => {
           this.$log.log('GR error: ' + errorGr);
         });
@@ -107,7 +108,6 @@ class HeaderController {
     let maxEnd;
     for (maxEnd = left; maxEnd < right - 1; maxEnd++) {
       if (array[maxEnd] <= cmp) {
-        this.$log.log(array[maxEnd] + ' - ' + cmp + ': ', array[maxEnd] <= cmp);
         this.swap(array, maxEnd, minEnd);
         minEnd++;
       }
