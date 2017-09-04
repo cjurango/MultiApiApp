@@ -48,6 +48,23 @@ class HeaderController {
     });
   }
 
+  saveBooks(books) {
+    const search = {
+      query: this.query,
+      datetime: new Date(),
+      numResults: books.length,
+      books
+    };
+    this.$http({
+      method: 'POST',
+      url: 'http://localhost:8080/booksearch',
+      data: search,
+      cache: false
+    }).then(response => {
+      this.$log.log('Search saved: ' + response);
+    });
+  }
+
   searchBooks() {
     let olBooks = [];
     let gBooks = [];
@@ -67,6 +84,7 @@ class HeaderController {
           olBooks.concat(gBooks);
           this.quickSortTitles(olBooks, 0, olBooks.length - 1);
           this.$rootScope.searching = true;
+          this.saveBooks(olBooks);
           this.$rootScope.$broadcast('bookListChanged', olBooks);
         }, errorGr => {
           this.$log.log('GR error: ' + errorGr);
