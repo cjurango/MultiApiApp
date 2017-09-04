@@ -1,0 +1,11 @@
+<header class="header">
+  <p class="header-title">Book Search App</p>
+  <div id="searchbox" class="search-form">
+    <div class="search-image"></div>
+    <input placeholder="Search books" type="text" class="search-field" name="q" value="" ng-keyup="$ctrl.searchBooks()">
+  </div>
+  <a ng-show="$ctrl.prevHistory" id="searchhistory" class="search-history" ng-click="$ctrl.getHistory()">
+    <p class="history-title">Search History</p>
+    <div class="history"></div>
+  </a>
+</header>
